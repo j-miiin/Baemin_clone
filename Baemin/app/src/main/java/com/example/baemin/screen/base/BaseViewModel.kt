@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class BaseViewModel: ViewModel() {
+abstract class BaseViewModel: ViewModel() {
 
     protected var stateBundle: Bundle? = null
 
