@@ -1,6 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Baemin" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Baemin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        
+        <item name="toolbarStyle">@style/widget.baemin.Toolbar</item>
+        <item name="toolbarWithArrowButtonStyle">@style/widget.baemin.Toolbar.WithArrow</item>
+        <item name="toolbarWithCloseButtonStyle">@style/widget.baemin.Toolbar.WithClose</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
