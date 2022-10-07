@@ -39,6 +39,7 @@ abstract class BaseFragment<VM: BaseViewModel, VB: ViewBinding>: Fragment() {
         }
         initViews()
         fetchJob = viewModel.fetchData()
+        observeData()
     }
 
     open fun initViews() = Unit
