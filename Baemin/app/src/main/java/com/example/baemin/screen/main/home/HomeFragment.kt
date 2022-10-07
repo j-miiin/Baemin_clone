@@ -32,7 +32,6 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 this@HomeFragment,
                 restaurantListFragmentList
             )
-
             viewPager.adapter = viewPagerAdapter
         }
 

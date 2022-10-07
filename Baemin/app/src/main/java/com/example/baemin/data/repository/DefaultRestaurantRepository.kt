@@ -11,7 +11,9 @@ class DefaultRestaurantRepository(
     private val resourcesProvider: ResourcesProvider,
     private val ioDispatcher: CoroutineDispatcher
 ): RestaurantRepository {
-    override suspend fun getList(restaurantCategory: RestaurantCategory): List<RestaurantEntity> = withContext(ioDispatcher){
+    override suspend fun getList(
+        restaurantCategory: RestaurantCategory
+    ): List<RestaurantEntity> = withContext(ioDispatcher){
         listOf(
             RestaurantEntity(
                 id = 0,
@@ -102,7 +104,6 @@ class DefaultRestaurantRepository(
                 deliveryTipRange = Pair(0, 2000)
             ),
         )
-
     }
 
 

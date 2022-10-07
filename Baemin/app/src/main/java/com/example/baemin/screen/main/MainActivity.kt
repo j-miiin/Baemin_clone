@@ -2,6 +2,7 @@ package com.example.baemin.screen.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.example.baemin.R

@@ -3,6 +3,7 @@ package com.example.baemin
 import android.app.Application
 import android.content.Context
 import com.example.baemin.di.appModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class Part6Chapter01Application: Application() {
@@ -12,6 +13,7 @@ class Part6Chapter01Application: Application() {
         appContext = this
 
         startKoin {
+            androidContext(this@Part6Chapter01Application)
             modules(appModule)
         }
     }

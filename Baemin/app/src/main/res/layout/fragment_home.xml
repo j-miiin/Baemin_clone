@@ -54,8 +54,6 @@
         android:layout_height="wrap_content"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tabLayout">
 
@@ -64,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="12dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:checkedChip="@id/chipDefault"
             app:chipSpacingHorizontal="4dp"
             app:chipSpacingVertical="6dp"
@@ -75,7 +73,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipInitialize"
-                style="@style/widget.baemin.Chip"
+                style="@style/Widget.Baemin.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/initialize"
@@ -85,7 +83,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipFastDelivery"
-                style="@style/widget.baemin.Chip"
+                style="@style/Widget.Baemin.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fast_delivery"
@@ -94,7 +92,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipLowDeliveryTip"
-                style="@style/widget.baemin.Chip"
+                style="@style/Widget.Baemin.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/low_delivery_tip"
@@ -103,7 +101,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipDefault"
-                style="@style/widget.baemin.Chip"
+                style="@style/Widget.Baemin.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/default_order"
@@ -112,7 +110,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipTopRate"
-                style="@style/widget.baemin.Chip"
+                style="@style/Widget.Baemin.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/top_rate"

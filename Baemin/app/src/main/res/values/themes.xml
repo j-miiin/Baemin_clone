@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.Baemin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         
-        <item name="toolbarStyle">@style/widget.baemin.Toolbar</item>
-        <item name="toolbarWithArrowButtonStyle">@style/widget.baemin.Toolbar.WithArrow</item>
-        <item name="toolbarWithCloseButtonStyle">@style/widget.baemin.Toolbar.WithClose</item>
+        <item name="toolbarStyle">@style/Widget.Baemin.Toolbar</item>
+        <item name="toolbarWithArrowButtonStyle">@style/Widget.Baemin.Toolbar.WithArrow</item>
+        <item name="toolbarWithCloseButtonStyle">@style/Widget.Baemin.Toolbar.WithClose</item>
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
