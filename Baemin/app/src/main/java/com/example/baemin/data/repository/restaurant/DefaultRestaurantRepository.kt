@@ -1,4 +1,4 @@
-package com.example.baemin.data.repository
+package com.example.baemin.data.repository.restaurant
 
 import com.example.baemin.data.entity.RestaurantEntity
 import com.example.baemin.screen.main.home.restaurant.RestaurantCategory

@@ -2,8 +2,7 @@ package com.example.baemin.screen.main.home.restaurant
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.baemin.data.entity.RestaurantEntity
-import com.example.baemin.data.repository.RestaurantRepository
+import com.example.baemin.data.repository.restaurant.RestaurantRepository
 import com.example.baemin.model.restaurant.RestaurantModel
 import com.example.baemin.screen.base.BaseViewModel
 import kotlinx.coroutines.Job
