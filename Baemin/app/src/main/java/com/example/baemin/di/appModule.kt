@@ -1,5 +1,6 @@
 package com.example.baemin.di
 
+import com.example.baemin.data.entity.MapSearchInfoEntity
 import com.example.baemin.data.repository.map.DefaultMapRepository
 import com.example.baemin.data.repository.map.MapRepository
 import com.example.baemin.data.repository.restaurant.DefaultRestaurantRepository
@@ -8,6 +9,7 @@ import com.example.baemin.screen.main.home.HomeViewModel
 import com.example.baemin.screen.main.home.restaurant.RestaurantCategory
 import com.example.baemin.screen.main.home.restaurant.RestaurantListViewModel
 import com.example.baemin.screen.main.my.MyViewModel
+import com.example.baemin.screen.mylocation.MyLocationViewModel
 import com.example.baemin.util.provider.DefaultResourcesProvider
 import com.example.baemin.util.provider.ResourcesProvider
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +22,7 @@ val appModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { MyViewModel() }
     viewModel { (restaurantCategory: RestaurantCategory) -> RestaurantListViewModel(restaurantCategory, get()) }
+    viewModel { (mapSearchInfoEntity: MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity, get()) }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }

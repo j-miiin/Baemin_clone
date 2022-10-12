@@ -1,7 +1,9 @@
 package com.example.baemin.screen.main.home
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -12,11 +14,13 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.example.baemin.R
 import com.example.baemin.data.entity.LocationLatLngEntity
+import com.example.baemin.data.entity.MapSearchInfoEntity
 import com.example.baemin.data.url.Key
 import com.example.baemin.databinding.FragmentHomeBinding
 import com.example.baemin.screen.base.BaseFragment
 import com.example.baemin.screen.main.home.restaurant.RestaurantCategory
 import com.example.baemin.screen.main.home.restaurant.RestaurantListFragment
+import com.example.baemin.screen.mylocation.MyLocationActivity
 import com.example.baemin.widget.adapter.RestaurantListFragmentPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,6 +37,16 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     private lateinit var locationManager: LocationManager
 
     private lateinit var myLocationListener: MyLocationListener
+
+    private val changeLocationLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.getParcelableExtra<MapSearchInfoEntity>(HomeViewModel.MY_LOCATION_KEY)
+                ?.let { myLocationInfo ->
+                    viewModel.loadReverseGeoInformation(myLocationInfo.locationLatLng)
+            }
+        }
+
+    }
 
     private val locationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -52,6 +66,18 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 Toast.makeText(requireContext(), getString(R.string.can_not_assigned_permission), Toast.LENGTH_SHORT).show()
             }
         }
+
+    override fun initViews() = with(binding) {
+        locationTitleText.setOnClickListener {
+            viewModel.getMapSearchInfo()?.let { mapInfo ->
+                changeLocationLauncher.launch(
+                    MyLocationActivity.newIntent(
+                        requireContext(), mapInfo
+                    )
+                )
+            }
+        }
+    }
 
     private fun initViewPager(locationLatLng: LocationLatLngEntity) = with(binding) {
 
@@ -153,7 +179,6 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     inner class MyLocationListener: LocationListener {
         override fun onLocationChanged(location: Location) {
 //            binding.locationTitleText.text = "${location.latitude}, ${location.longitude}"
-            Log.d("location", location.latitude.toString()+", "+location.longitude)
             viewModel.loadReverseGeoInformation(
                 LocationLatLngEntity(
                     location.latitude,
