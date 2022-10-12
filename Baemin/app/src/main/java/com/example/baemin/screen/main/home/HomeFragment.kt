@@ -5,12 +5,14 @@ import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.example.baemin.R
 import com.example.baemin.data.entity.LocationLatLngEntity
+import com.example.baemin.data.url.Key
 import com.example.baemin.databinding.FragmentHomeBinding
 import com.example.baemin.screen.base.BaseFragment
 import com.example.baemin.screen.main.home.restaurant.RestaurantCategory
@@ -18,6 +20,7 @@ import com.example.baemin.screen.main.home.restaurant.RestaurantListFragment
 import com.example.baemin.widget.adapter.RestaurantListFragmentPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
@@ -51,6 +54,7 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         }
 
     private fun initViewPager(locationLatLng: LocationLatLngEntity) = with(binding) {
+
         val restaurantCategories = RestaurantCategory.values()
 
         if (::viewPagerAdapter.isInitialized.not()) {
@@ -122,7 +126,7 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 minTime, minDistance, myLocationListener
             )
             requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
+                LocationManager.GPS_PROVIDER,
                 minTime, minDistance, myLocationListener
             )
         }
@@ -149,6 +153,7 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     inner class MyLocationListener: LocationListener {
         override fun onLocationChanged(location: Location) {
 //            binding.locationTitleText.text = "${location.latitude}, ${location.longitude}"
+            Log.d("location", location.latitude.toString()+", "+location.longitude)
             viewModel.loadReverseGeoInformation(
                 LocationLatLngEntity(
                     location.latitude,

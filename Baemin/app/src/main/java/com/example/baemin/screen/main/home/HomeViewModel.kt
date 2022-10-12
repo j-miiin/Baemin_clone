@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baemin.R
 import com.example.baemin.data.entity.LocationLatLngEntity
+import com.example.baemin.data.repository.map.DefaultMapRepository
 import com.example.baemin.data.repository.map.MapRepository
 import com.example.baemin.screen.base.BaseViewModel
 import kotlinx.coroutines.launch

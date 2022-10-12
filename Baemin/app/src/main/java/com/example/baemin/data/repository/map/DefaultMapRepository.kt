@@ -17,6 +17,8 @@ class DefaultMapRepository(
         val response = mapApiService.getReverseGeoCode(
             lat = locationLatLngEntity.latitude,
             lon = locationLatLngEntity.longitude
+//            lat = 37.4980,
+//            lon = 127.0276
         )
         if (response.isSuccessful) {
             response?.body()?.addressInfo
