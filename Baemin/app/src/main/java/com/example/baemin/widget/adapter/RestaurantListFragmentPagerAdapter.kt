@@ -2,13 +2,16 @@ package com.example.baemin.widget.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.baemin.data.entity.LocationLatLngEntity
 import com.example.baemin.screen.main.home.restaurant.RestaurantListFragment
 
 class RestaurantListFragmentPagerAdapter(
     fragment: Fragment,
-    val fragmentList: List<RestaurantListFragment>
+    val fragmentList: List<RestaurantListFragment>,
+    var locationLatLngEntity: LocationLatLngEntity
 ): FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = fragmentList.size
 
     override fun createFragment(position: Int): Fragment = fragmentList[position]
+
 }

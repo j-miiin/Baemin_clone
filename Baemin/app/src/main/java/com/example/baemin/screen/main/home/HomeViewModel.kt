@@ -5,13 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.baemin.R
 import com.example.baemin.data.entity.LocationLatLngEntity
 import com.example.baemin.data.entity.MapSearchInfoEntity
-import com.example.baemin.data.repository.map.DefaultMapRepository
 import com.example.baemin.data.repository.map.MapRepository
+import com.example.baemin.data.repository.user.UserRepository
 import com.example.baemin.screen.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val mapRepository: MapRepository
+    private val mapRepository: MapRepository,
+    private val userRepository: UserRepository
 ): BaseViewModel() {
 
     companion object {
@@ -24,10 +25,14 @@ class HomeViewModel(
         locationLatLngEntity: LocationLatLngEntity
     ) = viewModelScope.launch {
         homeStateLiveData.value = HomeState.Loading
-        val addressInfo = mapRepository.getReverseGeoInformation(locationLatLngEntity)
+        val userLocation = userRepository.getUserLocation()
+        val currentLocation = userLocation ?: locationLatLngEntity
+
+        val addressInfo = mapRepository.getReverseGeoInformation(currentLocation)
         addressInfo?.let { info ->
             homeStateLiveData.value = HomeState.Success(
-                mapSearchInfo = info.toSearchInfoEntity(locationLatLngEntity)
+                mapSearchInfo = info.toSearchInfoEntity(locationLatLngEntity),
+                isLocationSame = currentLocation == locationLatLngEntity
             )
         } ?: kotlin.run {
             homeStateLiveData.value = HomeState.Error(

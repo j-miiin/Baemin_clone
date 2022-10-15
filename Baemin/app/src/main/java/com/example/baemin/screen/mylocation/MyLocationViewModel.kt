@@ -6,6 +6,7 @@ import com.example.baemin.R
 import com.example.baemin.data.entity.LocationLatLngEntity
 import com.example.baemin.data.entity.MapSearchInfoEntity
 import com.example.baemin.data.repository.map.MapRepository
+import com.example.baemin.data.repository.user.UserRepository
 import com.example.baemin.screen.base.BaseViewModel
 import com.example.baemin.screen.main.home.HomeState
 import kotlinx.coroutines.Job
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 class MyLocationViewModel(
     private val mapSearchInfoEntity: MapSearchInfoEntity,
     private val mapRepository: MapRepository,
-    private val userRepository:
+    private val userRepository: UserRepository
 ): BaseViewModel() {
 
     val myLocationStateLiveData = MutableLiveData<MyLocationState>(MyLocationState.Uninitialized)
@@ -44,8 +45,12 @@ class MyLocationViewModel(
     fun confirmSelectLocation() = viewModelScope.launch {
         when (val data = myLocationStateLiveData.value) {
             is MyLocationState.Success -> {
-
+                userRepository.insertUserLocation(data.mapSearchInfoEntity.locationLatLng)
+                myLocationStateLiveData.value = MyLocationState.Confirm(
+                    data.mapSearchInfoEntity
+                )
             }
+            else -> {}
         }
     }
 }
