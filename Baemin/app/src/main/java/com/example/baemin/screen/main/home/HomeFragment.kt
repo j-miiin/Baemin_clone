@@ -20,6 +20,7 @@ import com.example.baemin.databinding.FragmentHomeBinding
 import com.example.baemin.screen.base.BaseFragment
 import com.example.baemin.screen.main.home.restaurant.RestaurantCategory
 import com.example.baemin.screen.main.home.restaurant.RestaurantListFragment
+import com.example.baemin.screen.main.home.restaurant.RestaurantOrder
 import com.example.baemin.screen.mylocation.MyLocationActivity
 import com.example.baemin.widget.adapter.RestaurantListFragmentPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -77,6 +78,35 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 )
             }
         }
+        orderChipGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.chipDefault -> {
+                    chipInitialize.isGone = true
+                    changeRestaurantOrder(RestaurantOrder.DEFAULT)
+                }
+                R.id.chipInitialize -> {
+                    chipDefault.isChecked = true
+                }
+                R.id.chipLowDeliveryTip -> {
+                    chipInitialize.isVisible = true
+                    changeRestaurantOrder(RestaurantOrder.LOW_DELIVERY_TIP)
+                }
+                R.id.chipFastDelivery -> {
+                    chipInitialize.isVisible = true
+                    changeRestaurantOrder(RestaurantOrder.FAST_DELIVERY)
+                }
+                R.id.chipTopRate -> {
+                    chipInitialize.isVisible = true
+                    changeRestaurantOrder(RestaurantOrder.TOP_RATE)
+                }
+            }
+        }
+    }
+
+    private fun changeRestaurantOrder(order: RestaurantOrder) {
+        viewPagerAdapter.fragmentList.forEach {
+            it.viewModel.setRestaurantOrder(order)
+        }
     }
 
     private fun initViewPager(locationLatLng: LocationLatLngEntity) = with(binding) {
@@ -84,6 +114,7 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         val restaurantCategories = RestaurantCategory.values()
 
         if (::viewPagerAdapter.isInitialized.not()) {
+            orderChipGroup.isVisible = true
             val restaurantListFragmentList = restaurantCategories.map {
                 RestaurantListFragment.newInstance(it, locationLatLng)
             }
@@ -93,20 +124,19 @@ class HomeFragment: BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 locationLatLng
             )
             viewPager.adapter = viewPagerAdapter
+            // 페이지가 바뀔 때마다 fragment를 바꾸는 것이 아닌, 한 번 만들면 계속 사용하도록 함
+            viewPager.offscreenPageLimit = restaurantCategories.size
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.setText(restaurantCategories[position].categoryNameId)
+            }.attach()
         }
+
         if (locationLatLng != viewPagerAdapter.locationLatLngEntity) {
             viewPagerAdapter.locationLatLngEntity = locationLatLng
             viewPagerAdapter.fragmentList.forEach {
                 it.viewModel.setLocationLatLng(locationLatLng)
             }
         }
-
-        // 페이지가 바뀔 때마다 fragment를 바꾸는 것이 아닌, 한 번 만들면 계속 사용하도록 함
-        viewPager.offscreenPageLimit = restaurantCategories.size
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.setText(restaurantCategories[position].categoryNameId)
-        }.attach()
     }
 
     override fun observeData() = viewModel.homeStateLiveData.observe(viewLifecycleOwner) {
