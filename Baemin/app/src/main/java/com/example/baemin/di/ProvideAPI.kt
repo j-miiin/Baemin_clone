@@ -1,6 +1,7 @@
 package com.example.baemin.di
 
 import com.example.baemin.BuildConfig
+import com.example.baemin.data.network.FoodApiService
 import com.example.baemin.data.network.MapApiService
 import com.example.baemin.data.url.Url
 import okhttp3.OkHttpClient
@@ -13,12 +14,27 @@ fun provideMapApiService(retrofit: Retrofit): MapApiService {
     return retrofit.create(MapApiService::class.java)
 }
 
+fun provideFoodApiService(retrofit: Retrofit): FoodApiService {
+    return retrofit.create(FoodApiService::class.java)
+}
+
 fun provideMapRetrofit(
     okHttpClient: OkHttpClient,
     gsonConverterFactory: GsonConverterFactory
 ): Retrofit {
     return Retrofit.Builder()
         .baseUrl(Url.TMAP_URL)
+        .addConverterFactory(gsonConverterFactory)
+        .client(okHttpClient)
+        .build()
+}
+
+fun provideFoodRetrofit(
+    okHttpClient: OkHttpClient,
+    gsonConverterFactory: GsonConverterFactory
+): Retrofit {
+    return Retrofit.Builder()
+        .baseUrl(Url.FOOD_URL)
         .addConverterFactory(gsonConverterFactory)
         .client(okHttpClient)
         .build()
