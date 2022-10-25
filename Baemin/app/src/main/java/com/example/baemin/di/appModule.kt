@@ -3,6 +3,7 @@ package com.example.baemin.di
 import com.example.baemin.data.entity.LocationLatLngEntity
 import com.example.baemin.data.entity.MapSearchInfoEntity
 import com.example.baemin.data.entity.RestaurantEntity
+import com.example.baemin.data.entity.RestaurantFoodEntity
 import com.example.baemin.data.repository.map.DefaultMapRepository
 import com.example.baemin.data.repository.map.MapRepository
 import com.example.baemin.data.repository.restaurant.DefaultRestaurantRepository
@@ -15,6 +16,8 @@ import com.example.baemin.screen.main.home.HomeViewModel
 import com.example.baemin.screen.main.home.restaurant.RestaurantCategory
 import com.example.baemin.screen.main.home.restaurant.RestaurantListViewModel
 import com.example.baemin.screen.main.home.restaurant.detail.RestaurantDetailViewModel
+import com.example.baemin.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
+import com.example.baemin.screen.main.home.restaurant.detail.review.RestaurantReviewListViewModel
 import com.example.baemin.screen.main.my.MyViewModel
 import com.example.baemin.screen.mylocation.MyLocationViewModel
 import com.example.baemin.util.provider.DefaultResourcesProvider
@@ -34,6 +37,10 @@ val appModule = module {
         RestaurantListViewModel(restaurantCategory, locationLatLng, get()) }
     viewModel { (mapSearchInfoEntity: MapSearchInfoEntity) -> MyLocationViewModel(mapSearchInfoEntity, get(), get()) }
     viewModel { (restaurantEntity: RestaurantEntity) -> RestaurantDetailViewModel(restaurantEntity, get(), get()) }
+    viewModel { (restaurantId: Long, restaurantFoodList: List<RestaurantFoodEntity>) ->
+        RestaurantMenuListViewModel(restaurantId, restaurantFoodList)
+    }
+    viewModel { RestaurantReviewListViewModel() }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
