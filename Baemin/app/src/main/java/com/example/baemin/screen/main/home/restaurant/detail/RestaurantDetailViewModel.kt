@@ -24,10 +24,12 @@ class RestaurantDetailViewModel(
         )
         restaurantDetailStateLiveData.value = RestaurantDetailState.Loading
         val foods = restaurantFoodRepository.getFoods(restaurantId = restaurantEntity.restaurantInfoId)
+        val foodMenuListInBasket = restaurantFoodRepository.getAllFoodMenuListInBasket()
         val isLiked = userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle) != null
         restaurantDetailStateLiveData.value = RestaurantDetailState.Success(
             restaurantEntity = restaurantEntity,
             restaurantFoodList = foods,
+            foodMenuListInBasket = foodMenuListInBasket,
             isLiked = isLiked
         )
     }
@@ -66,6 +68,42 @@ class RestaurantDetailViewModel(
                 }
             }
             else -> {}
+        }
+    }
+
+    fun notifyFoodMenuListInBasket(foodMenu: RestaurantFoodEntity) = viewModelScope.launch {
+        when (val data = restaurantDetailStateLiveData.value) {
+            is RestaurantDetailState.Success -> {
+                restaurantDetailStateLiveData.value = data.copy(
+                    foodMenuListInBasket = data.foodMenuListInBasket?.toMutableList()?.apply {
+                        add(foodMenu)
+                    }
+                )
+            }
+            else -> Unit
+        }
+    }
+
+    fun notifyClearNeedAlert(clearNeed: Boolean, afterAction: () -> Unit) {
+        when (val data = restaurantDetailStateLiveData.value) {
+            is RestaurantDetailState.Success -> {
+                restaurantDetailStateLiveData.value = data.copy(
+                    isClearNeedInBasketAndAction = Pair(clearNeed, afterAction)
+                )
+            }
+            else -> Unit
+        }
+    }
+
+    fun notifyClearBasket() = viewModelScope.launch {
+        when (val data = restaurantDetailStateLiveData.value) {
+            is RestaurantDetailState.Success -> {
+                restaurantDetailStateLiveData.value = data.copy(
+                    foodMenuListInBasket = listOf(),
+                    isClearNeedInBasketAndAction = Pair(false, { })
+                )
+            }
+            else -> Unit
         }
     }
 }

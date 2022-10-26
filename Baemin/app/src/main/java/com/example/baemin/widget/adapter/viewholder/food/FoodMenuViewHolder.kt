@@ -9,6 +9,7 @@ import com.example.baemin.model.restaurant.food.FoodModel
 import com.example.baemin.screen.base.BaseViewModel
 import com.example.baemin.util.provider.ResourcesProvider
 import com.example.baemin.widget.adapter.viewholder.ModelViewHolder
+import com.example.baemin.widget.adapter.viewholder.retaurant.FoodMenuListListener
 import com.example.baemin.widget.listener.AdapterListener
 
 class FoodMenuViewHolder(
@@ -32,6 +33,10 @@ class FoodMenuViewHolder(
     }
 
     override fun bindViews(model: FoodModel, adapterListener: AdapterListener) {
-
+        if (adapterListener is FoodMenuListListener) {
+            binding.root.setOnClickListener {
+                adapterListener.onClickItem(model)
+            }
+        }
     }
 }

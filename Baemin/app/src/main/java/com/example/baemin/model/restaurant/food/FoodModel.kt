@@ -1,5 +1,6 @@
 package com.example.baemin.model.restaurant.food
 
+import com.example.baemin.data.entity.RestaurantFoodEntity
 import com.example.baemin.model.CellType
 import com.example.baemin.model.Model
 
@@ -12,6 +13,11 @@ data class FoodModel(
     val price: Int,
     val imageUrl: String,
     val restaurantId: Long,
+    val foodId: String
 ): Model(id, type) {
+
+    fun toEntity(basketIndex: Int) = RestaurantFoodEntity(
+        "${foodId}_${basketIndex}", title, description, price, imageUrl, restaurantId
+    )
 
 }
