@@ -10,6 +10,8 @@ import com.example.baemin.data.repository.restaurant.DefaultRestaurantRepository
 import com.example.baemin.data.repository.restaurant.RestaurantRepository
 import com.example.baemin.data.repository.restaurant.food.DefaultRestaurantFoodRepository
 import com.example.baemin.data.repository.restaurant.food.RestaurantFoodRepository
+import com.example.baemin.data.repository.restaurant.review.DefaultRestaurantReviewRepository
+import com.example.baemin.data.repository.restaurant.review.RestaurantReviewRepository
 import com.example.baemin.data.repository.user.DefaultUserRepository
 import com.example.baemin.data.repository.user.UserRepository
 import com.example.baemin.screen.main.home.HomeViewModel
@@ -40,12 +42,13 @@ val appModule = module {
     viewModel { (restaurantId: Long, restaurantFoodList: List<RestaurantFoodEntity>) ->
         RestaurantMenuListViewModel(restaurantId, restaurantFoodList, get())
     }
-    viewModel { RestaurantReviewListViewModel() }
+    viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(), get()) }
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
+    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
 
     single { provideGsonConvertFactory() }
     single { buildOkHttpClient() }

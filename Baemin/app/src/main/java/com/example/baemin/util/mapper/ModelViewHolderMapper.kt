@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.example.baemin.databinding.ViewholderEmptyBinding
 import com.example.baemin.databinding.ViewholderFoodMenuBinding
 import com.example.baemin.databinding.ViewholderRestaurantBinding
+import com.example.baemin.databinding.ViewholderRestaurantReviewBinding
 import com.example.baemin.model.CellType
 import com.example.baemin.model.Model
 import com.example.baemin.screen.base.BaseViewModel
@@ -13,6 +14,7 @@ import com.example.baemin.widget.adapter.viewholder.EmptyViewHolder
 import com.example.baemin.widget.adapter.viewholder.ModelViewHolder
 import com.example.baemin.widget.adapter.viewholder.food.FoodMenuViewHolder
 import com.example.baemin.widget.adapter.viewholder.retaurant.RestaurantViewHolder
+import com.example.baemin.widget.adapter.viewholder.review.RestaurantReviewViewHolder
 
 object ModelViewHolderMapper {
 
@@ -37,6 +39,11 @@ object ModelViewHolderMapper {
             )
             CellType.FOOD_CELL -> FoodMenuViewHolder(
                 ViewholderFoodMenuBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.REVIEW_CELL -> RestaurantReviewViewHolder(
+                ViewholderRestaurantReviewBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourcesProvider
             )
