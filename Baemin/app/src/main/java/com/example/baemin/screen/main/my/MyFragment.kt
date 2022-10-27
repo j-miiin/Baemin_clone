@@ -21,7 +21,7 @@ class MyFragment: BaseFragment<MyViewModel, FragmentMyBinding>() {
 
     private val gso: GoogleSignInOptions by lazy {
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(R.string.default_web_client_id)
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
     }
