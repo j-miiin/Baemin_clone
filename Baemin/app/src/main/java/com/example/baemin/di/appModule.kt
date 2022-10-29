@@ -7,6 +7,8 @@ import com.example.baemin.data.entity.RestaurantFoodEntity
 import com.example.baemin.data.preference.AppPreferenceManager
 import com.example.baemin.data.repository.map.DefaultMapRepository
 import com.example.baemin.data.repository.map.MapRepository
+import com.example.baemin.data.repository.order.DefaultOrderRepository
+import com.example.baemin.data.repository.order.OrderRepository
 import com.example.baemin.data.repository.restaurant.DefaultRestaurantRepository
 import com.example.baemin.data.repository.restaurant.RestaurantRepository
 import com.example.baemin.data.repository.restaurant.food.DefaultRestaurantFoodRepository
@@ -24,8 +26,12 @@ import com.example.baemin.screen.main.home.restaurant.detail.review.RestaurantRe
 import com.example.baemin.screen.main.like.RestaurantLikeListViewModel
 import com.example.baemin.screen.main.my.MyViewModel
 import com.example.baemin.screen.mylocation.MyLocationViewModel
+import com.example.baemin.screen.order.OrderMenuListViewModel
+import com.example.baemin.util.event.MenuChangeEventBus
 import com.example.baemin.util.provider.DefaultResourcesProvider
 import com.example.baemin.util.provider.ResourcesProvider
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -46,12 +52,14 @@ val appModule = module {
     }
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
     viewModel { RestaurantLikeListViewModel(get()) }
+    viewModel { OrderMenuListViewModel(get(), get()) }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(), get()) }
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
     single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
+    single<OrderRepository> { DefaultOrderRepository(get(), get()) }
 
     single { provideGsonConvertFactory() }
     single { buildOkHttpClient() }
@@ -72,4 +80,8 @@ val appModule = module {
 
     single { Dispatchers.IO }
     single { Dispatchers.Main }
+
+    single { MenuChangeEventBus() }
+
+    single { Firebase.firestore }
 }

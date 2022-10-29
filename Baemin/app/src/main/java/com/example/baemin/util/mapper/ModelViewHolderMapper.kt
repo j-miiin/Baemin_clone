@@ -10,6 +10,7 @@ import com.example.baemin.util.provider.ResourcesProvider
 import com.example.baemin.widget.adapter.viewholder.EmptyViewHolder
 import com.example.baemin.widget.adapter.viewholder.ModelViewHolder
 import com.example.baemin.widget.adapter.viewholder.food.FoodMenuViewHolder
+import com.example.baemin.widget.adapter.viewholder.order.OrderMenuViewHolder
 import com.example.baemin.widget.adapter.viewholder.retaurant.LikeRestaurantViewHolder
 import com.example.baemin.widget.adapter.viewholder.retaurant.RestaurantViewHolder
 import com.example.baemin.widget.adapter.viewholder.review.RestaurantReviewViewHolder
@@ -47,6 +48,11 @@ object ModelViewHolderMapper {
             )
             CellType.REVIEW_CELL -> RestaurantReviewViewHolder(
                 ViewholderRestaurantReviewBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.ORDER_FOOD_CELL -> OrderMenuViewHolder(
+                ViewholderOrderMenuBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourcesProvider
             )
