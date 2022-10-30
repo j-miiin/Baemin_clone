@@ -3,6 +3,7 @@ package com.example.baemin.screen.main.my
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baemin.data.preference.AppPreferenceManager
+import com.example.baemin.data.repository.user.UserRepository
 import com.example.baemin.screen.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MyViewModel(
-    private val appPreferenceManager: AppPreferenceManager
+    private val appPreferenceManager: AppPreferenceManager,
+    private val userRepository: UserRepository
 ): BaseViewModel() {
 
     val myStateLiveData = MutableLiveData<MyState>(MyState.Uninitialized)
@@ -49,6 +51,7 @@ class MyViewModel(
             appPreferenceManager.removeIdToken()
 
         }
+        userRepository.deleteAllUserLikedRestaurant()
         fetchData()
     }
 }
