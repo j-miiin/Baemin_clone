@@ -3,6 +3,7 @@ package com.example.baemin.screen.main.my
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.baemin.data.preference.AppPreferenceManager
+import com.example.baemin.data.repository.order.OrderRepository
 import com.example.baemin.data.repository.user.UserRepository
 import com.example.baemin.screen.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -14,7 +15,8 @@ import kotlinx.coroutines.withContext
 
 class MyViewModel(
     private val appPreferenceManager: AppPreferenceManager,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val orderRepository: OrderRepository
 ): BaseViewModel() {
 
     val myStateLiveData = MutableLiveData<MyState>(MyState.Uninitialized)

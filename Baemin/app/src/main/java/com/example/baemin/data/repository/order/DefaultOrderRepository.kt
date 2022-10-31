@@ -2,7 +2,9 @@ package com.example.baemin.data.repository.order
 
 import com.example.baemin.data.entity.RestaurantFoodEntity
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class DefaultOrderRepository(
@@ -30,6 +32,22 @@ class DefaultOrderRepository(
             Result.Error(e)
         }
         return@withContext result
+    }
+
+    override suspend fun getAllOrderMenu(userId: String): Result = withContext(ioDispatcher) {
+        return@withContext try {
+            val result: QuerySnapshot = firestore
+                .collection("order")
+                .whereEqualTo("userId", userId)
+                .get()
+                .await()
+            Result.Success(result.documents.map {
+                
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error(e)
+        }
     }
 
     sealed class Result {
