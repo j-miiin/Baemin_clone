@@ -1,5 +1,6 @@
 package com.example.baemin.data.repository.order
 
+import com.example.baemin.data.entity.OrderEntity
 import com.example.baemin.data.entity.RestaurantFoodEntity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -42,7 +43,21 @@ class DefaultOrderRepository(
                 .get()
                 .await()
             Result.Success(result.documents.map {
-                
+                OrderEntity(
+                    id = it.id,
+                    userId = it.get("userId") as String,
+                    restaurantId = it.get("restaurantId") as Long,
+                    foodMenuList = (it.get("orderMenuLsit") as ArrayList<Map<String, Any>>).map { food ->
+                        RestaurantFoodEntity(
+                            id = food["id"] as String,
+                            title = food["title"] as String,
+                            description = food["description"] as String,
+                            price = (food["price"] as Long).toInt(),
+                            imageUrl = food["imageUrl"] as String,
+                            restaurantId = food["restaurantId"] as Long
+                        )
+                }
+                )
             })
         } catch (e: Exception) {
             e.printStackTrace()

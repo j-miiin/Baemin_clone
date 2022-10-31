@@ -2,11 +2,14 @@ package com.example.baemin.screen.main.my
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.baemin.R
+import com.example.baemin.data.entity.OrderEntity
 import com.example.baemin.data.preference.AppPreferenceManager
+import com.example.baemin.data.repository.order.DefaultOrderRepository
 import com.example.baemin.data.repository.order.OrderRepository
 import com.example.baemin.data.repository.user.UserRepository
+import com.example.baemin.model.order.OrderModel
 import com.example.baemin.screen.base.BaseViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -39,10 +42,32 @@ class MyViewModel(
 
     fun setUserInfo(firebaseUser: FirebaseUser?) = viewModelScope.launch {
         firebaseUser?.let { user ->
-            myStateLiveData.value = MyState.Success.Registered(
-                userName = user.displayName ?: "익명",
-                profileImageUri = user.photoUrl
-            )
+            when (val orderMenuResult = orderRepository.getAllOrderMenu(user.uid)) {
+                is DefaultOrderRepository.Result.Success<*> -> {
+                    val orderList = orderMenuResult.data as List<OrderEntity>
+                    myStateLiveData.value = MyState.Success.Registered(
+                        userName = user.displayName ?: "익명",
+                        profileImageUri = user.photoUrl,
+                        orderList = orderList.map {
+                            OrderModel(
+                                id = it.hashCode().toLong(),
+                                orderId = it.id,
+                                userId = it.userId,
+                                restaurantId = it.restaurantId,
+                                foodMenuList = it.foodMenuList
+                            )
+                        }
+                    )
+                }
+                is DefaultOrderRepository.Result.Error -> {
+                    myStateLiveData.value = MyState.Error(
+                        R.string.request_error,
+                        orderMenuResult.e
+                    )
+                }
+
+                else -> {}
+            }
         } ?: kotlin.run {
             myStateLiveData.value = MyState.Success.NotRegistered
         }

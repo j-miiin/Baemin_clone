@@ -1,18 +1,24 @@
 package com.example.baemin.screen.main.my
 
 import android.app.Activity
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.example.baemin.R
 import com.example.baemin.databinding.FragmentMyBinding
 import com.example.baemin.extensions.load
+import com.example.baemin.model.order.OrderModel
 import com.example.baemin.screen.base.BaseFragment
+import com.example.baemin.util.provider.ResourcesProvider
+import com.example.baemin.widget.adapter.ModelRecyclerAdapter
+import com.example.baemin.widget.listener.AdapterListener
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyFragment: BaseFragment<MyViewModel, FragmentMyBinding>() {
@@ -45,6 +51,12 @@ class MyFragment: BaseFragment<MyViewModel, FragmentMyBinding>() {
         }
     }
 
+    private val resourcesProvider by inject<ResourcesProvider>()
+
+    private val adapter by lazy {
+        ModelRecyclerAdapter<OrderModel, MyViewModel>(listOf(), viewModel, resourcesProvider, object : AdapterListener {})
+    }
+
     override fun initViews() = with(binding) {
         loginButton.setOnClickListener {
             signInGoogle()
@@ -53,6 +65,7 @@ class MyFragment: BaseFragment<MyViewModel, FragmentMyBinding>() {
             firebaseAuth.signOut()
             viewModel.signOut()
         }
+        recyclerView.adapter = adapter
     }
 
     private fun signInGoogle() {
@@ -93,6 +106,8 @@ class MyFragment: BaseFragment<MyViewModel, FragmentMyBinding>() {
         loginRequiredGroup.isGone = true
         profileImageView.load(state.profileImageUri.toString(), 60f)
         userNameTextView.text = state.userName
+//        Toast.makeText(requireContext(), state.orderList.toString(), Toast.LENGTH_SHORT).show()
+        adapter.submitList(state.orderList)
     }
 
     private fun handleLoginState(state: MyState.Login) {
