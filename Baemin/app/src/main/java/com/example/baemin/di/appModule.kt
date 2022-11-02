@@ -30,6 +30,7 @@ import com.example.baemin.screen.order.OrderMenuListViewModel
 import com.example.baemin.util.event.MenuChangeEventBus
 import com.example.baemin.util.provider.DefaultResourcesProvider
 import com.example.baemin.util.provider.ResourcesProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
@@ -84,4 +85,5 @@ val appModule = module {
     single { MenuChangeEventBus() }
 
     single { Firebase.firestore }
+    single { FirebaseAuth.getInstance() }
 }

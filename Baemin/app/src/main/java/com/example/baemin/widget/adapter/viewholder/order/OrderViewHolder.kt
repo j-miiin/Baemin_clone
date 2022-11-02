@@ -7,6 +7,7 @@ import com.example.baemin.screen.base.BaseViewModel
 import com.example.baemin.util.provider.ResourcesProvider
 import com.example.baemin.widget.adapter.viewholder.ModelViewHolder
 import com.example.baemin.widget.listener.AdapterListener
+import com.example.baemin.widget.listener.order.OrderListListener
 
 class OrderViewHolder(
     private val binding: ViewholderOrderBinding,
@@ -40,5 +41,12 @@ class OrderViewHolder(
         }
     }
 
-    override fun bindViews(model: OrderModel, adapterListener: AdapterListener) = Unit
+    override fun bindViews(model: OrderModel, adapterListener: AdapterListener) {
+
+        if (adapterListener is OrderListListener) {
+            binding.root.setOnClickListener {
+                adapterListener.writeRestaurantReview(model.orderId, model.restaurantTitle)
+            }
+        }
+    }
 }
