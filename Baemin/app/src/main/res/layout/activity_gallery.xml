@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".screen.review.gallery.GalleryActivity">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/white"
@@ -30,7 +30,7 @@
             android:textStyle="bold"
             android:textColor="@color/black"/>
 
-    </Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

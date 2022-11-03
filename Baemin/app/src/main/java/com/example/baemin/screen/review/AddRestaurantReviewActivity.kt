@@ -32,7 +32,7 @@ class AddRestaurantReviewActivity : AppCompatActivity() {
 
     private val storage by inject<FirebaseStorage>()
 
-    private val firestore: FirebaseFirestore by inject()
+    private val firestore by inject<FirebaseFirestore>()
 
     private val photoListAdapter = PhotoListAdapter { uri -> removePhoto(uri) }
 

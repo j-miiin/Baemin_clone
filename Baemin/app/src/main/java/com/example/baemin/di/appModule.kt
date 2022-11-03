@@ -27,6 +27,8 @@ import com.example.baemin.screen.main.like.RestaurantLikeListViewModel
 import com.example.baemin.screen.main.my.MyViewModel
 import com.example.baemin.screen.mylocation.MyLocationViewModel
 import com.example.baemin.screen.order.OrderMenuListViewModel
+import com.example.baemin.screen.review.gallery.GalleryPhotoRepository
+import com.example.baemin.screen.review.gallery.GalleryViewModel
 import com.example.baemin.util.event.MenuChangeEventBus
 import com.example.baemin.util.provider.DefaultResourcesProvider
 import com.example.baemin.util.provider.ResourcesProvider
@@ -55,6 +57,7 @@ val appModule = module {
     viewModel { (restaurantTitle: String) -> RestaurantReviewListViewModel(restaurantTitle, get()) }
     viewModel { RestaurantLikeListViewModel(get()) }
     viewModel { OrderMenuListViewModel(get(), get()) }
+    viewModel { GalleryViewModel(get()) }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
@@ -62,6 +65,7 @@ val appModule = module {
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
     single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get(), get()) }
     single<OrderRepository> { DefaultOrderRepository(get(), get()) }
+    single { GalleryPhotoRepository(androidApplication()) }
 
     single { provideGsonConvertFactory() }
     single { buildOkHttpClient() }
