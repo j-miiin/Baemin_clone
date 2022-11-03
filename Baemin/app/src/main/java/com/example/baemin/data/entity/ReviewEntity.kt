@@ -3,7 +3,7 @@ package com.example.baemin.data.entity
 data class ReviewEntity(
     val userId: String,
     val title: String,
-    val createAt: Long,
+    val createdAt: Long,
     val content: String,
     val rating: Float,
     val imageUrlList: List<String>? = null,

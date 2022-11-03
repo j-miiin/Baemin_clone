@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".screen.review.gallery.GalleryActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/white"
@@ -16,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:titleTextColor="@color/black">
+
         <TextView
             android:id="@+id/confirmButton"
             android:layout_width="wrap_content"
@@ -28,7 +29,8 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
-    </androidx.appcompat.widget.Toolbar>
+
+    </Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -32,7 +32,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintDimensionRatio="w,1:1"
                 android:layout_margin="4dp"
-                android:background="@drawable/bg_round_corner_8_black"/>
+                android:background="@drawable/bg_round_corner_8_black"
+                android:scaleType="centerCrop"/>
 
             <ImageButton
                 android:id="@+id/closeButton"

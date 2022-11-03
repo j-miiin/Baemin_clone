@@ -1,7 +1,10 @@
 package com.example.baemin.screen.main.home.restaurant.detail.review
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.baemin.data.entity.ReviewEntity
+import com.example.baemin.data.repository.restaurant.review.DefaultRestaurantReviewRepository
 import com.example.baemin.data.repository.restaurant.review.RestaurantReviewRepository
 import com.example.baemin.model.restaurant.review.RestaurantReviewModel
 import com.example.baemin.screen.base.BaseViewModel
@@ -17,17 +20,24 @@ class RestaurantReviewListViewModel(
 
     override fun fetchData(): Job = viewModelScope.launch {
         reviewStateLiveData.value = RestaurantReviewState.Loading
-        val reviews = restaurantReviewRepository.getReviews(restaurantTitle)
-        reviewStateLiveData.value = RestaurantReviewState.Success(
-            reviews.map {
-                RestaurantReviewModel(
-                    id = it.id,
-                    title = it.title,
-                    description = it.description,
-                    grade = it.grade,
-                    thumbnailImageUri = it.images?.first()
-                )
+        when(val result = restaurantReviewRepository.getReviews(restaurantTitle)) {
+            is DefaultRestaurantReviewRepository.Result.Success<*> -> {
+                val reviews = result.data as List<ReviewEntity>
+                reviewStateLiveData.value = RestaurantReviewState.Success(reviews.map {
+                    RestaurantReviewModel(
+                        id = it.hashCode().toLong(),
+                        title = it.title,
+                        description = it.content,
+                        grade = it.rating,
+                        thumbnailImageUri = if (it.imageUrlList.isNullOrEmpty()) {
+                            null
+                        } else {
+                            Uri.parse(it.imageUrlList.first())
+                        }
+                    )
+                })
             }
-        )
+            else -> {}
+        }
     }
 }
