@@ -100,4 +100,9 @@ dependencies {
 
     // Circle Indicator
     implementation 'me.relex:circleindicator:2.1.6'
+
+    // Test
+    testImplementation "io.insert-koin:koin-test:3.2.2"
+    testImplementation 'org.mockito:mockito-inline:3.4.0'
+    testImplementation "android.arch.core:core-testing:1.1.1"
 }
